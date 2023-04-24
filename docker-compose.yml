@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./php
+      dockerfile: Dockerfile.php74
+    container_name: laravel_app
+    restart: always
+    volumes:
+      - ./web:/var/www
+    depends_on:
+      - mysql
+    # environment:
+      # - "DB_CONNECTION=mysql"
+      # - "DB_HOST=mysql"
+      # - "DB_PORT=3306"
+    networks:
+      - laravel-network
+
+  nginx:
+    image: nginx:stable
+    container_name: laravel_nginx
+    restart: always
+    volumes:
+      - ./web:/var/www
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./logs/nginx:/var/log/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - laravel-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: laravel_mysql
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      # MYSQL_DATABASE: database
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - laravel-network
+
+volumes:
+  mysql-data:
+
+networks:
+  laravel-network:
+    driver: bridge
