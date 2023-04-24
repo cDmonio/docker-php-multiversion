@@ -1,0 +1,24 @@
+.env
+
+/logs/nginx/*
+/logs/php5.4/*
+/logs/php7.3/*
+/logs/php7.4/*
+/logs/php8.1/*
+
+/mysql/*
+
+/nginx/conf.d/*
+/nginx/html/*
+
+/php5.4/*
+/php7.3/*
+/php7.4/*
+/php8.1/*
+
+/scripts/*
+
+#example nginx
+!/nginx/conf.d/default.conf
+
+/web/*
