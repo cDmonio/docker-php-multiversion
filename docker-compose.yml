@@ -1,14 +1,14 @@
 version: '3.8'
 
 services:
-  app:
+  php5.6:
     build:
       context: ./php
-      dockerfile: Dockerfile.php74
-    container_name: laravel_app
+      dockerfile: Dockerfile.php56
+    container_name: php5.6
     restart: always
     volumes:
-      - ./web:/var/www
+      - ./projects:/var/www
     depends_on:
       - mysql
     # environment:
@@ -16,26 +16,78 @@ services:
       # - "DB_HOST=mysql"
       # - "DB_PORT=3306"
     networks:
-      - laravel-network
+      - develop-network
+  php7.3:
+    build:
+      context: ./php
+      dockerfile: Dockerfile.php73
+    container_name: php7.3
+    restart: always
+    volumes:
+      - ./projects:/var/www
+    depends_on:
+      - mysql
+    # environment:
+      # - "DB_CONNECTION=mysql"
+      # - "DB_HOST=mysql"
+      # - "DB_PORT=3306"
+    networks:
+      - develop-network
+
+  php7.4:
+    build:
+      context: ./php
+      dockerfile: Dockerfile.php74
+    container_name: php7.4
+    restart: always
+    volumes:
+      - ./projects:/var/www
+    depends_on:
+      - mysql
+    # environment:
+      # - "DB_CONNECTION=mysql"
+      # - "DB_HOST=mysql"
+      # - "DB_PORT=3306"
+    networks:
+      - develop-network
+
+  php8.2:
+    build:
+      context: ./php
+      dockerfile: Dockerfile.php82
+    container_name: php8.2
+    restart: always
+    volumes:
+      - ./projects:/var/www
+    depends_on:
+      - mysql
+    # environment:
+      # - "DB_CONNECTION=mysql"
+      # - "DB_HOST=mysql"
+      # - "DB_PORT=3306"
+    networks:
+      - develop-network
 
   nginx:
     image: nginx:stable
-    container_name: laravel_nginx
+    container_name: nginx
     restart: always
     volumes:
-      - ./web:/var/www
+      - ./projects:/var/www
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./logs/nginx:/var/log/nginx
     ports:
       - "80:80"
     depends_on:
-      - app
+      - php8.2
+      - php7.4
+      - php7.3
     networks:
-      - laravel-network
+      - develop-network
 
   mysql:
     image: mysql:8.0
-    container_name: laravel_mysql
+    container_name: mysql8
     restart: always
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -46,11 +98,11 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
-      - laravel-network
+      - develop-network
 
 volumes:
   mysql-data:
 
 networks:
-  laravel-network:
+  develop-network:
     driver: bridge
