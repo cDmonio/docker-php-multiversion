@@ -1,24 +1,28 @@
-FROM php:5.6-fpm-jessie
+FROM php:5.6-fpm-alpine
+
+# Instalar Supervisor
+RUN apk update && apk add --no-cache supervisor
+
+# Configurar Supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Establecer el directorio de trabajo
 WORKDIR /var/www
 
-# Instalar dependencias adicionales para PHP 5.6
-RUN apt-get update && apt-get install -y \
-    libpng12-dev \
-    libmcrypt-dev \
+# Instalar dependencias adicionales para PHP 5.6 en Alpine
+RUN apk update && apk add --no-cache \
+    mysql-client \
     libxml2-dev \
+    zlib-dev \
     zip \
     unzip
 
-# Instalar extensiones de PHP para PHP 5.6
+# Instalar extensiones de PHP para PHP 5.6 en Alpine
 RUN docker-php-ext-install \
-    mysql \
     mysqli \
     pdo_mysql \
-    mbstring \
-    mcrypt \
-    xml
+    xml \
+    zip
 
 # Instalar Composer para PHP 5.6
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -32,5 +36,5 @@ RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
 # Exponer el puerto 9000
 EXPOSE 9000
 
-# Iniciar PHP-FPM
-CMD ["php-fpm"]
+# Iniciar Supervisor y PHP-FPM
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
