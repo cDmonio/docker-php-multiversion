@@ -21,4 +21,7 @@
 #example nginx
 !/nginx/conf.d/default.conf
 
-/web/*
+/projects/*
+
+!/projects/index.php
+!/projects/info.php
