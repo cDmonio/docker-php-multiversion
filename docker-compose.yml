@@ -88,7 +88,7 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: mysql8
+    container_name: mysql
     restart: always
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -100,6 +100,8 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - develop-network
+    ports:
+      - "3306:3306"
 
 volumes:
   mysql-data:
