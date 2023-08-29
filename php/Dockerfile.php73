@@ -7,6 +7,7 @@ WORKDIR /var/www
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    libcurl4-openssl-dev \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
@@ -24,8 +25,11 @@ RUN apt-get update && apt-get install -y \
 # Limpiar la caché
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Agregar configuración de memory_limit al php.ini
+COPY php73.ini /usr/local/etc/php/conf.d/custom-php.ini
+
 # Instalar extensiones de PHP
-RUN docker-php-ext-install -j$(nproc) gd pdo_mysql mbstring exif pcntl bcmath intl mysqli pdo_mysql sodium zip
+RUN docker-php-ext-install -j$(nproc) gd pdo_mysql mbstring exif pcntl bcmath intl mysqli pdo_mysql sodium zip curl
 
 # Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
