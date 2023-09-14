@@ -22,6 +22,10 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libzip-dev
 
+# Instalar Node.js y npm
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
+
 # Limpiar la caché
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

@@ -96,6 +96,7 @@ services:
       # MYSQL_DATABASE: database
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_SQL_MODE: "NO_ENGINE_SUBSTITUTION"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./scripts:/docker-entrypoint-initdb.d
