@@ -1,5 +1,3 @@
-Here's your readme.md with corrected English and commands formatted more clearly:
-
 # Running Multiple PHP Versions Simultaneously with Docker
 
 This repository allows you to run multiple versions of PHP simultaneously using Docker. In addition to PHP, we provide containers for MYSQL, Composer, and Node.js.
