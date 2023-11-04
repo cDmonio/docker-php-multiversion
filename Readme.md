@@ -1,31 +1,99 @@
-Multiple versions of PHP runing simulteaneosly with Docker.
-We also have: MYSQL, Composer, Nodejs for each container of PHP.
+Here's your readme.md with corrected English and commands formatted more clearly:
 
-- There is the possibility of adding a fake domain in the hosts file.
+# Running Multiple PHP Versions Simultaneously with Docker
 
-INSIDE COINTAINERS:
+This repository allows you to run multiple versions of PHP simultaneously using Docker. In addition to PHP, we provide containers for MYSQL, Composer, and Node.js.
 
-Database:
-1. You can copy scripts to ./scripts
-2. docker exec -it mysql bash
-2.2 Login in mysql: mysql -u root -p
-2.3 import db without login: cd docker-entrypoint-initdb.d
-2.3.1 mysql -u root -p DATABASE < script.sql
+## Setup Instructions
 
-PHP: docker exec -it php7.3 bash
-- select project, is the same like any version php ex: php8.2
-1. install composer: composer install
-2. php artisan
+### Adding a Fake Domain to the Hosts File
 
-NGINX:
-1. go to ./nginx/conf.d/ copy or edit default.conf, replace yourdomain.test by IP or domain, and your version of PHP, i have build docker image as version PHP ex: php7.2, php7.3, php7.4, php8.2
-2. replace: fastcgi_pass IMAGEDOCKER-PHP-VERSION:9000; example: fastcgi_pass php7.4:9000;
-3. docker exec -it nginx nginx -t //To check if config is OK
-4. docker exec -it nginx nginx -s reload
+You have the option to add a fake domain to your hosts file.
 
-LINUX / WINDOWS domains .test (AS ADMIN-SUDO)
+#### Inside Containers
 
-Linux: nano /etc/hosts
-Windows: C:\WINDOWS\System32\drivers\etc\hosts (OPEN WITH ANY EDITOR)
-add: 
-127.0.0.1      yourdomain.test
+**Database:**
+
+You can copy scripts to the `./scripts` directory.
+
+1. Access the MySQL container:
+   ```
+   docker exec -it mysql bash
+   ```
+
+2. Login to MySQL:
+   ```
+   mysql -u root -p
+   ```
+
+3. Import a database without logging in:
+   a. Change to the `docker-entrypoint-initdb.d` directory:
+      ```
+      cd docker-entrypoint-initdb.d
+      ```
+   b. Run the following command to import a database from a script file:
+      ```
+      mysql -u root -p DATABASE < script.sql
+      ```
+
+**PHP:**
+
+To access a specific PHP container, use a command like the following:
+```
+docker exec -it php7.3 bash
+```
+
+- To run PHP scripts, use the `php` command followed by the script name (e.g., `php script.php`).
+- Install Composer by running:
+  ```
+  composer install
+  ```
+- To use Laravel's Artisan commands, run:
+  ```
+  php artisan
+  ```
+
+**NGINX:**
+
+Navigate to the `./nginx/conf.d/` directory and copy or edit the `default.conf` file. Replace occurrences of `yourdomain.test` with an IP address or domain name and the version of PHP you are using (e.g., `php7.2`, `php7.3`, `php7.4`, `php8.2`).
+
+- Update the `fastcgi_pass` directive in the config file to point to the corresponding PHP container (e.g., `fastcgi_pass php7.4:9000`).
+
+After making changes, you can check the NGINX configuration with:
+```
+docker exec -it nginx nginx -t
+```
+
+If the configuration is correct, reload NGINX with:
+```
+docker exec -it nginx nginx -s reload
+```
+
+#### Managing Hosts File (Linux and Windows)
+
+To add the fake domain `.test` to your hosts file, follow these steps:
+
+**Linux (as admin/sudo):**
+
+1. Open the hosts file in a text editor (e.g., Nano):
+   ```
+   sudo nano /etc/hosts
+   ```
+
+2. Add the following line to the file:
+   ```
+   127.0.0.1 yourdomain.test
+   ```
+
+3. Save and exit the editor.
+
+**Windows:**
+
+1. Open the hosts file located at `C:\WINDOWS\System32\drivers\etc\hosts` using any text editor. You may need administrative privileges to edit this file.
+
+2. Add the following line to the file:
+   ```
+   127.0.0.1 yourdomain.test
+   ```
+
+3. Save the file.
