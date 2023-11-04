@@ -10,7 +10,7 @@ You have the option to add a fake domain to your hosts file.
 
 - clone this repo
    ```
-   git clone https://github.com/cDmonio/php-multiversion.git
+   git clone https://github.com/cDmonio/docker-php-multiversion.git
    ```
 - coyp .env.example to .env (edit credentials for MYSQL)
    ```
