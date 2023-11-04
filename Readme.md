@@ -8,6 +8,15 @@ This repository allows you to run multiple versions of PHP simultaneously using 
 
 You have the option to add a fake domain to your hosts file.
 
+- clone this repo
+   ```
+   git clone https://github.com/cDmonio/php-multiversion.git
+   ```
+- coyp .env.example to .env (edit credentials for MYSQL)
+   ```
+   cp .env.example .env
+   ```
+
 #### Inside Containers
 
 **Database:**
@@ -63,9 +72,9 @@ docker exec -it nginx nginx -t
 ```
 
 If the configuration is correct, reload NGINX with:
-```
-docker exec -it nginx nginx -s reload
-```
+   ```
+   docker exec -it nginx nginx -s reload
+   ```
 
 #### Managing Hosts File (Linux and Windows)
 
