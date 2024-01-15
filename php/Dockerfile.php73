@@ -33,7 +33,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 COPY php73.ini /usr/local/etc/php/conf.d/custom-php.ini
 
 # Instalar extensiones de PHP
-RUN docker-php-ext-install -j$(nproc) gd pdo_mysql mbstring exif pcntl bcmath intl mysqli pdo_mysql sodium zip curl
+RUN docker-php-ext-install -j$(nproc) gd pdo_mysql mbstring exif pcntl bcmath intl mysqli pdo_mysql sodium zip curl sockets
 
 # Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
