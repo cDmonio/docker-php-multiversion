@@ -5,6 +5,9 @@ services:
     build:
       context: ./php
       dockerfile: Dockerfile.php56
+      args:
+        USER_SO_ID: ${USER_SO_ID}
+        USER_SO_NAME: ${USER_SO_NAME}
     container_name: php5.6
     restart: always
     volumes:
@@ -21,6 +24,9 @@ services:
     build:
       context: ./php
       dockerfile: Dockerfile.php73
+      args:
+        USER_SO_ID: ${USER_SO_ID}
+        USER_SO_NAME: ${USER_SO_NAME}
     container_name: php7.3
     restart: always
     volumes:
@@ -38,6 +44,9 @@ services:
     build:
       context: ./php
       dockerfile: Dockerfile.php74
+      args:
+        USER_SO_ID: ${USER_SO_ID}
+        USER_SO_NAME: ${USER_SO_NAME}
     container_name: php7.4
     restart: always
     volumes:
@@ -55,6 +64,9 @@ services:
     build:
       context: ./php
       dockerfile: Dockerfile.php82
+      args:
+        USER_SO_ID: ${USER_SO_ID}
+        USER_SO_NAME: ${USER_SO_NAME}
     container_name: php8.2
     restart: always
     volumes:
@@ -82,7 +94,7 @@ services:
       - php8.2
       - php7.4
       - php7.3
-      - php5.6
+      # - php5.6
     networks:
       - develop-network
 
