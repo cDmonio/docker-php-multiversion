@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source .env
+
 # Función para listar las carpetas en la carpeta projects
 listar_carpetas() {
     echo "Listado de carpetas en projects:"
@@ -38,7 +40,7 @@ seleccionar_carpeta
 seleccionar_php_version
 
 # Montar el comando para ejecutar
-comando="docker exec -it $php_version bash -c 'su - joe -c \"cd /var/www/$carpeta_seleccionada && bash\"'"
+comando="docker exec -it $php_version bash -c 'su - $USER_SO_NAME -c \"cd /var/www/$carpeta_seleccionada && bash\"'"
 echo "Ejecutando comando: $comando"
 
 # Ejecutar el comando
