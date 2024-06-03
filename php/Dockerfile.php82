@@ -21,8 +21,15 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libzip-dev
 
+# Instalar Node.js y npm
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
+
 # Limpiar la caché
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Agregar configuración de memory_limit al php.ini
+COPY php82.ini /usr/local/etc/php/conf.d/custom-php.ini
 
 # Instalar extensiones de PHP
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl mysqli sodium zip

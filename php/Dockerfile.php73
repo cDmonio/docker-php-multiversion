@@ -60,4 +60,4 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 80
 
 # Iniciar supervisord para gestionar los procesos
-CMD ["/usr/bin/supervisord"]
+# CMD ["/usr/bin/supervisord"]

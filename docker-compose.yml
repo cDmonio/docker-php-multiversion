@@ -60,6 +60,26 @@ services:
     networks:
       - develop-network
 
+  php74.16:
+    build:
+      context: ./php
+      dockerfile: Dockerfile.php7416
+      args:
+        USER_SO_ID: ${USER_SO_ID}
+        USER_SO_NAME: ${USER_SO_NAME}
+    container_name: php74.16
+    restart: always
+    volumes:
+      - ./projects:/var/www
+    depends_on:
+      - mysql
+    # environment:
+      # - "DB_CONNECTION=mysql"
+      # - "DB_HOST=mysql"
+      # - "DB_PORT=3306"
+    networks:
+      - develop-network
+
   php8.2:
     build:
       context: ./php
@@ -93,6 +113,7 @@ services:
     depends_on:
       - php8.2
       - php7.4
+      - php74.16
       - php7.3
       # - php5.6
     networks:

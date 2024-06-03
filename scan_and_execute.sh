@@ -21,7 +21,7 @@ seleccionar_carpeta() {
 # Función para seleccionar una versión de PHP
 seleccionar_php_version() {
     echo "Seleccione la versión de PHP:"
-    select php_version in "php7.3" "php7.4" "php8.0"; do
+    select php_version in "php7.3" "php7.4" "php8.2"; do
         if [ -n "$php_version" ]; then
             break
         else

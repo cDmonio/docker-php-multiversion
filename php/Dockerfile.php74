@@ -24,6 +24,9 @@ RUN apt-get update && apt-get install -y \
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Agregar configuración de memory_limit al php.ini
+COPY php74.ini /usr/local/etc/php/conf.d/custom-php.ini
+
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl mysqli sodium zip curl
 
