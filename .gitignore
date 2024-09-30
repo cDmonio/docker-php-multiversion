@@ -1,27 +1,29 @@
 .env
 
 /logs/nginx/*
-/logs/php5.4/*
+/logs/php5.6/*
 /logs/php7.3/*
 /logs/php7.4/*
-/logs/php8.1/*
+/logs/php8.2/*
 
 /mysql/*
 
 /nginx/conf.d/*
 /nginx/html/*
 
-/php5.4/*
+/php5.6/*
 /php7.3/*
 /php7.4/*
-/php8.1/*
+/php8.2/*
 
 /scripts/*
 
 #example nginx
 !/nginx/conf.d/default.conf
 
-/projects/*
+/wwww/*
 
-!/projects/index.php
-!/projects/info.php
+!/www/index.php
+!/www/info.php
+
+/certs/*
