@@ -21,7 +21,7 @@
 #example nginx
 !/nginx/conf.d/default.conf
 
-/wwww/*
+/www/*
 
 !/www/index.php
 !/www/info.php
