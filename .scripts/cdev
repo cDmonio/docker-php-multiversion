@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Verifica si se pasó un argumento
+if [ -z "$1" ]; then
+    echo "Uso: cdev <nombre_del_contenedor>"
+    exit 1
+fi
+
+# Obtiene la ruta actual
+current_path=$(pwd)
+
+# Extrae la parte de la ruta que empieza desde "/www/"
+target_path=${current_path#*/www/}
+
+# Si el path resultante está vacío, usar solo "/www/"
+if [ -z "$target_path" ]; then
+    target_path="/var/www"
+else
+    target_path="/var/www/$target_path"
+fi
+
+# Ejecuta el comando docker exec con la ruta del directorio
+docker exec -it "$1" bash -c "cd '$target_path' && exec bash"
+
