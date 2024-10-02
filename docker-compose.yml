@@ -68,7 +68,9 @@ services:
       dockerfile: Dockerfile.php82
       args:
         USER_SO_ID: ${USER_SO_ID}
+        USER_SO_GID: ${USER_SO_ID}
         USER_SO_NAME: ${USER_SO_NAME}
+    user: "1000:1000"
     container_name: php8.2
     restart: always
     volumes:
