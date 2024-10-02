@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile.php56
       args:
         USER_SO_ID: ${USER_SO_ID}
+        USER_SO_GID: ${USER_SO_ID}
         USER_SO_NAME: ${USER_SO_NAME}
     container_name: php5.6
     restart: always
@@ -12,10 +13,6 @@ services:
       - ./www:/var/www
     depends_on:
       - mysql
-    # environment:
-      # - "DB_CONNECTION=mysql"
-      # - "DB_HOST=mysql"
-      # - "DB_PORT=3306"
     networks:
       - develop-network
   php7.3:
@@ -24,6 +21,7 @@ services:
       dockerfile: Dockerfile.php73
       args:
         USER_SO_ID: ${USER_SO_ID}
+        USER_SO_GID: ${USER_SO_ID}
         USER_SO_NAME: ${USER_SO_NAME}
     container_name: php7.3
     restart: always
@@ -31,10 +29,6 @@ services:
       - ./www:/var/www
     depends_on:
       - mysql
-    # environment:
-      # - "DB_CONNECTION=mysql"
-      # - "DB_HOST=mysql"
-      # - "DB_PORT=3306"
     networks:
       - develop-network
 
@@ -44,6 +38,7 @@ services:
       dockerfile: Dockerfile.php74
       args:
         USER_SO_ID: ${USER_SO_ID}
+        USER_SO_GID: ${USER_SO_ID}
         USER_SO_NAME: ${USER_SO_NAME}
     container_name: php7.4
     restart: always
@@ -51,16 +46,8 @@ services:
       - ./www:/var/www
     depends_on:
       - mysql
-    # environment:
-      # - "DB_CONNECTION=mysql"
-      # - "DB_HOST=mysql"
-      # - "DB_PORT=3306"
     networks:
       - develop-network
-    #ports:
-      #- "9000:9000" # Puerto para PHP-FPM
-      #- "9003:9003" # Puerto para Xdebug
-      #- "44895:44895"
 
   php8.2:
     build:
@@ -77,10 +64,6 @@ services:
       - ./www:/var/www
     depends_on:
       - mysql
-    # environment:
-      # - "DB_CONNECTION=mysql"
-      # - "DB_HOST=mysql"
-      # - "DB_PORT=3306"
     networks:
       - develop-network
 
@@ -96,13 +79,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      #- "9000:9000"
     depends_on:
       - php8.2
       - php7.4
-      #- php74.16
       - php7.3
-      # - php5.6
     networks:
       - develop-network
 

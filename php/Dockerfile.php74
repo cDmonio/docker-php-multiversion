@@ -30,25 +30,28 @@ COPY php74.ini /usr/local/etc/php/conf.d/custom-php.ini
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl mysqli sodium zip curl
 
+RUN pecl install xdebug-3.1.6 \
+    && docker-php-ext-enable xdebug
+
+COPY php74.xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ARG USER_SO_ID
+ARG USER_SO_GID
 ARG USER_SO_NAME
 
-RUN useradd -m -u $USER_SO_ID $USER_SO_NAME
-
-# Copy existing application directory
-COPY . /var/www
+RUN groupadd -g ${USER_SO_GID} ${USER_SO_NAME} && \
+    useradd -m -u ${USER_SO_ID} -g ${USER_SO_GID} ${USER_SO_NAME}
 
 # Set proper ownership and permissions for /var/www directory
 RUN chown -R $USER_SO_NAME:$USER_SO_NAME /var/www && chmod -R 755 /var/www
 
-# Copy supervisord configuration
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Copiar el directorio de la aplicación existente
+COPY --chown=$USER_SO_NAME:$USER_SO_NAME . /var/www
+
+USER $USER_SO_NAME
 
 # Expose port 80
-EXPOSE 80
-
-# Start supervisord to manage processes
-CMD ["/usr/bin/supervisord"]
+EXPOSE 9003

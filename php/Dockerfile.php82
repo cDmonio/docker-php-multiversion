@@ -45,23 +45,18 @@ COPY php82.xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ARG USER_SO_ID
+ARG USER_SO_GID
 ARG USER_SO_NAME
 
-RUN useradd -m -u $USER_SO_ID $USER_SO_NAME
-
-# Copiar el directorio de la aplicación existente
-COPY . /var/www
+RUN groupadd -g ${USER_SO_GID} ${USER_SO_NAME} && \
+    useradd -m -u ${USER_SO_ID} -g ${USER_SO_GID} ${USER_SO_NAME}
 
 # Establecer la propiedad y los permisos adecuados para el directorio /var/www
-RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
+RUN chown -R $USER_SO_NAME:$USER_SO_NAME /var/www && chmod -R 755 /var/www
 
-# Copiar la configuración de supervisord
-#COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Copiar el directorio de la aplicación existente
+COPY --chown=$USER_SO_NAME:$USER_SO_NAME . /var/www
 
-# Exponer el puerto 80
-#EXPOSE 80
-
-# Iniciar supervisord para gestionar los procesos
-#CMD ["/usr/bin/supervisord"]
+USER $USER_SO_NAME
 
 EXPOSE 9000
