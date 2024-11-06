@@ -54,4 +54,4 @@ COPY --chown=$USER_SO_NAME:$USER_SO_NAME . /var/www
 USER $USER_SO_NAME
 
 # Expose port 80
-EXPOSE 9003
+EXPOSE 9000

@@ -15,6 +15,7 @@ services:
       - mysql
     networks:
       - develop-network
+
   php7.3:
     build:
       context: ./php
@@ -57,7 +58,6 @@ services:
         USER_SO_ID: ${USER_SO_ID}
         USER_SO_GID: ${USER_SO_ID}
         USER_SO_NAME: ${USER_SO_NAME}
-    user: "1000:1000"
     container_name: php8.2
     restart: always
     volumes:
@@ -83,6 +83,7 @@ services:
       - php8.2
       - php7.4
       - php7.3
+      - php5.6
     networks:
       - develop-network
 

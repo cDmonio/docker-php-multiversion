@@ -15,14 +15,16 @@ RUN apk update && apk add --no-cache \
     libxml2-dev \
     zlib-dev \
     zip \
-    unzip
+    unzip \
+    gettext-dev
 
 # Instalar extensiones de PHP para PHP 5.6 en Alpine
 RUN docker-php-ext-install \
     mysqli \
     pdo_mysql \
     xml \
-    zip
+    zip \
+    gettext
 
 # Instalar Composer para PHP 5.6
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -32,18 +34,18 @@ RUN apk add --no-cache shadow
 COPY php56.ini /usr/local/etc/php/php.ini
 
 ARG USER_SO_ID
+ARG USER_SO_GID
 ARG USER_SO_NAME
 
-RUN useradd -m -u $USER_SO_ID $USER_SO_NAME
-
-# Copiar el directorio de la aplicación existente
-COPY . /var/www
+RUN groupadd -g ${USER_SO_GID} ${USER_SO_NAME} && \
+    useradd -m -u ${USER_SO_ID} -g ${USER_SO_GID} ${USER_SO_NAME}
 
 # Establecer la propiedad y los permisos adecuados para el directorio /var/www
-RUN chown -R joe:joe /var/www && chmod -R 755 /var/www
+RUN chown -R $USER_SO_NAME:$USER_SO_NAME /var/www && chmod -R 755 /var/www
 
-# Exponer el puerto 9000
-EXPOSE 80
+# Copiar el directorio de la aplicación existente
+COPY --chown=$USER_SO_NAME:$USER_SO_NAME . /var/www
 
-# Iniciar Supervisor y PHP-FPM
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+USER $USER_SO_NAME
+
+EXPOSE 9000

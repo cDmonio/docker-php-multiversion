@@ -6,6 +6,25 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+#Si el comando es nginx entonces, ejecutar: docker exec nginx nginx $2 $3
+if [ "$1" == "nginx" ]; then
+    # Verifica si se pasaron suficientes argumentos
+    if [ -z "$2" ]; then
+        echo "Uso: cdev nginx <argumento_2> [<argumento_3>]"
+        exit 1
+    fi
+
+    # Ejecuta el comando con los argumentos proporcionados
+    if [ -n "$3" ]; then
+        # Se proporcionan argumentos 2 y 3
+        docker exec nginx nginx "$2" "$3"
+    else
+        # Solo se proporciona argumento 2
+        docker exec nginx nginx "$2"
+    fi
+    exit
+fi
+
 # Obtiene la ruta actual
 current_path=$(pwd)
 

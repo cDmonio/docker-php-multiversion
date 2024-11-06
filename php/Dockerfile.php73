@@ -57,7 +57,7 @@ RUN chown -R $USER_SO_NAME:$USER_SO_NAME /var/www && chmod -R 755 /var/www
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Exponer el puerto 80
-EXPOSE 80
+EXPOSE 9000
 
 # Iniciar supervisord para gestionar los procesos
 # CMD ["/usr/bin/supervisord"]
